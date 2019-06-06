@@ -7,16 +7,16 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
-        v-if="authorized"
+        v-if="user"
         flat
-        @click="loggingOut"
+        @click="logOut"
       >
         ログアウト
       </v-btn>
       <v-btn
         v-else
         flat
-        @click="loggingIn"
+        @click="logIn"
       >
         ログイン
       </v-btn>
@@ -38,6 +38,7 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { mapState, mapActions } from 'vuex';
 import HelloWorld from './components/HelloWorld.vue';
 
 export default {
@@ -45,27 +46,26 @@ export default {
   components: {
     HelloWorld,
   },
-  data() {
-    return {
-      authorized: false,
-    };
+  computed: {
+    ...mapState(['user']),
   },
   mounted() {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
-        this.$data.authorized = true;
+        this.authorize(user);
       } else {
-        this.$data.authorized = false;
+        this.unauthorize();
       }
     });
   },
   methods: {
-    loggingIn() {
+    ...mapActions(['authorize', 'unauthorize']),
+    logIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithPopup(provider);
     },
-    loggingOut() {
+    logOut() {
       firebase.auth().signOut();
     },
   },
