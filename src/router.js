@@ -1,10 +1,13 @@
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
+import LogIn from '@/views/LogIn.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -21,5 +24,27 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: LogIn,
+    },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.fullPath !== '/login') {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (user) {
+        next();
+      } else {
+        next({ path: '/login' });
+      }
+    });
+  } else {
+    next();
+  }
+});
+
+export default router;

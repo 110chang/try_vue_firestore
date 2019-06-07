@@ -42,35 +42,35 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { mapState, mapActions } from 'vuex';
-import HelloWorld from './components/HelloWorld.vue';
+import { mapActions } from 'vuex';
+import router from '@/router';
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      user: firebase.auth().currentUser,
+    };
   },
-  computed: {
-    ...mapState(['user']),
-  },
-  mounted() {
+  created() {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
-        this.authorize(user);
+        this.$data.user = user;
       } else {
-        this.unauthorize();
+        this.$data.user = null;
       }
     });
   },
   methods: {
     ...mapActions(['authorize', 'unauthorize']),
-    logIn() {
+    async logIn() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider);
+      await firebase.auth().signInWithPopup(provider);
+      router.push('/');
     },
-    logOut() {
-      firebase.auth().signOut();
+    async logOut() {
+      await firebase.auth().signOut();
+      router.push('/login');
     },
   },
 };
