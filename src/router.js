@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import Home from '@/views/Home.vue';
 import LogIn from '@/views/LogIn.vue';
 
 Vue.use(Router);

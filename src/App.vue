@@ -33,30 +33,24 @@
 </template>
 
 <script>
-import firebase from 'firebase/app';
-import 'firebase/auth';
 import { mapState, mapActions } from 'vuex';
-import router from '@/router';
 
 export default {
   name: 'App',
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.authorize(user);
-      } else {
-        this.unauthorize();
-      }
-    });
+    this.initialize();
   },
   computed: {
     ...mapState('app', ['user']),
   },
   methods: {
-    ...mapActions('app', ['authorize', 'unauthorize']),
+    ...mapActions('app', [
+      'initialize',
+      'signOut',
+    ]),
     async logOut() {
-      await firebase.auth().signOut();
-      router.push('/login');
+      await this.signOut();
+      this.$router.push('/login');
     },
   },
 };

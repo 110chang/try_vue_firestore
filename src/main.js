@@ -1,10 +1,10 @@
 import Vue from 'vue';
-import './plugins/vuetify';
+import '@/plugins/vuetify';
 import firebase from 'firebase/app';
-import router from './router';
-import store from './stores';
-import App from './App.vue';
-import './registerServiceWorker';
+import router from '@/router';
+import store from '@/stores';
+import App from '@/App.vue';
+import '@/registerServiceWorker';
 
 Vue.config.productionTip = false;
 console.log(process.env);
