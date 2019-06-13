@@ -1,12 +1,8 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-
-Vue.use(Vuex);
-
 const AUTHORIZE = 'AUTHORIZE';
 const UNAUTHORIZE = 'UNAUTHORIZE';
 
-export default new Vuex.Store({
+export default {
+  namespaced: true,
   state: {
     user: null,
   },
@@ -26,4 +22,4 @@ export default new Vuex.Store({
       commit(UNAUTHORIZE);
     },
   },
-});
+};

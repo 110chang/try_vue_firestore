@@ -2,7 +2,7 @@ import Vue from 'vue';
 import './plugins/vuetify';
 import firebase from 'firebase/app';
 import router from './router';
-import store from './store';
+import store from './stores';
 import App from './App.vue';
 import './registerServiceWorker';
 

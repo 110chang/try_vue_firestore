@@ -18,13 +18,6 @@
         ログアウト
       </v-btn>
       <v-btn
-        v-else
-        flat
-        @click="logIn"
-      >
-        ログイン
-      </v-btn>
-      <v-btn
         flat
         href="https://github.com/vuetifyjs/vuetify/releases/latest"
         target="_blank"
@@ -42,32 +35,25 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import router from '@/router';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      user: firebase.auth().currentUser,
-    };
-  },
   created() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.$data.user = user;
+        this.authorize(user);
       } else {
-        this.$data.user = null;
+        this.unauthorize();
       }
     });
   },
+  computed: {
+    ...mapState('app', ['user']),
+  },
   methods: {
-    ...mapActions(['authorize', 'unauthorize']),
-    async logIn() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
-      router.push('/');
-    },
+    ...mapActions('app', ['authorize', 'unauthorize']),
     async logOut() {
       await firebase.auth().signOut();
       router.push('/login');
