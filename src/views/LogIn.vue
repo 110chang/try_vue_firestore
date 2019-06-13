@@ -1,9 +1,11 @@
 <template>
-  <div class="login">
-    <h1>This is an log in page</h1>
+  <v-layout align-center class="login text-xs-center">
+    <v-flex xs="6">
+    <h1>Welcome</h1>
     <v-btn
       v-if="!user"
       color="primary"
+      :disabled="nowLoggingIn"
       @click="logInWithGoogle"
     >
       Log in with Google
@@ -14,16 +16,20 @@
     >
       You always logged in.
     </v-alert>
-  </div>
+    <p>
+      <router-link to="signup">Or sign up</router-link>
+    </p>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'App',
+  name: 'LogIn',
   computed: {
-    ...mapState('app', ['user']),
+    ...mapState('app', ['user', 'nowLoggingIn']),
   },
   methods: {
     ...mapActions('app', ['signInWithGoogle']),
@@ -34,3 +40,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.login {
+  height: 100%;
+}
+</style>

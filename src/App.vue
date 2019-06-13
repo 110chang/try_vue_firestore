@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar app>
+    <v-toolbar app v-if="user">
       <v-toolbar-title class="headline text-uppercase mr-4">
         <span>Vuetify</span>
         <span class="font-weight-light">MATERIAL DESIGN</span>
@@ -11,7 +11,6 @@
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-btn
-        v-if="user"
         flat
         @click="logOut"
       >

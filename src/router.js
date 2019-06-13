@@ -3,6 +3,7 @@ import 'firebase/auth';
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home.vue';
+import SignUp from '@/views/SignUp.vue';
 import LogIn from '@/views/LogIn.vue';
 
 Vue.use(Router);
@@ -25,6 +26,11 @@ const router = new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
     },
     {
+      path: '/signup',
+      name: 'signup',
+      component: SignUp,
+    },
+    {
       path: '/login',
       name: 'login',
       component: LogIn,
@@ -33,7 +39,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.fullPath !== '/login') {
+  if (to.fullPath !== '/login' && to.fullPath !== '/signup') {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user) {
